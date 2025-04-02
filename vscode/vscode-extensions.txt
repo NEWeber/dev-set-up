@@ -1,0 +1,3 @@
+Extensions installed on WSL: Ubuntu:
+vortizhe.simple-ruby-erb
+waderyan.gitblame
