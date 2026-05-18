@@ -110,6 +110,18 @@ bash ~/code/tmux-startup.sh
 
 Edit `~/code/tmux-startup.config.sh` to set your project paths, notes files, and window layout.
 
+## Starship setup
+
+This repo tracks Starship config in `starship/starship.toml`.
+
+`setup.sh` symlinks:
+
+- `~/.config/starship.toml` -> `~/code/playground/dev-set-up/starship/starship.toml`
+
+Dependency:
+
+- `starship` (and shell initialization in your shell config)
+
 ## Bootstrap
 
 First-time setup:
@@ -144,6 +156,7 @@ The script is idempotent and includes safety checks:
 - Prompts for work and personal emails when generating git configs.
 - Symlinks Neovim config to `~/.config/nvim`.
 - Symlinks tmux config to `~/.config/tmux/tmux.conf`.
+- Symlinks Starship config to `~/.config/starship.toml`.
 - Copies tmux startup launcher/config into `~/code` (no symlinks).
 
 To overwrite existing dotfiles with repo templates:
@@ -173,6 +186,14 @@ If `~/.config/tmux/tmux.conf` already exists and you want a lighter-touch one-ti
 mkdir -p ~/.config/tmux
 mv ~/.config/tmux/tmux.conf ~/.config/tmux/tmux.conf.backup.$(date +%Y%m%d%H%M%S)
 ln -s ~/code/playground/dev-set-up/tmux/tmux.conf ~/.config/tmux/tmux.conf
+```
+
+If `~/.config/starship.toml` already exists and you want a lighter-touch one-time migration to the repo symlink, do it manually:
+
+```bash
+mkdir -p ~/.config
+mv ~/.config/starship.toml ~/.config/starship.toml.backup.$(date +%Y%m%d%H%M%S)
+ln -s ~/code/playground/dev-set-up/starship/starship.toml ~/.config/starship.toml
 ```
 
 ## Git identity split
