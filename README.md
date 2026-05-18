@@ -3,7 +3,7 @@
 Set up your personal SSH key before using `git@personal:` remotes:
 
 ```bash
-ssh-keygen -t ed25519 -C "you@personal.com" -f ~/.ssh/id_ed25519_github_personal
+ssh-keygen -t ed25519 -C "you@personal.example" -f ~/.ssh/id_ed25519_github_personal
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519_github_personal
 pbcopy < ~/.ssh/id_ed25519_github_personal.pub
@@ -69,6 +69,32 @@ Neovim dependencies to install on your machine:
 - compiler toolchain for Treesitter parsers (for macOS, install Xcode Command Line Tools)
 - optional but useful: `ripgrep` (used by Telescope live grep)
 
+## Tmux setup
+
+This repo tracks tmux config in `tmux/tmux.conf`.
+
+`setup.sh` symlinks:
+
+- `~/.config/tmux/tmux.conf` -> `~/code/playground/dev-set-up/tmux/tmux.conf`
+
+Tmux dependencies:
+
+- `tmux`
+- `git`
+- TPM (Tmux Plugin Manager), installed to `~/.tmux/plugins/tpm`
+
+Install TPM:
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+After launching tmux, install plugins with:
+
+```text
+prefix + I
+```
+
 ## Bootstrap
 
 First-time setup:
@@ -95,13 +121,14 @@ git remote -v
 
 The script is idempotent and includes safety checks:
 
-- Copies config files into your home directory (no symlinks).
+- Copies git/bash config files into your home directory.
 - Skips steps that are already complete.
 - Does not overwrite existing files unless `--force` is used.
 - Creates timestamped backups before overwrite when `--force` is used.
 - Installs VS Code extensions only when missing.
 - Prompts for work and personal emails when generating git configs.
 - Symlinks Neovim config to `~/.config/nvim`.
+- Symlinks tmux config to `~/.config/tmux/tmux.conf`.
 
 To overwrite existing dotfiles with repo templates:
 
@@ -112,7 +139,7 @@ bash ./setup.sh --force
 For non-interactive runs, pass emails via environment variables:
 
 ```bash
-WORK_EMAIL="you@company.com" PERSONAL_EMAIL="you@personal.com" bash ./setup.sh
+WORK_EMAIL="you@company.com" PERSONAL_EMAIL="you@personal.example" bash ./setup.sh
 ```
 
 If `~/.config/nvim` already exists and you want a lighter-touch one-time migration to the repo symlink, do it manually:
@@ -123,6 +150,14 @@ ln -s ~/code/playground/dev-set-up/nvim ~/.config/nvim
 ```
 
 This avoids using `--force` on a working setup.
+
+If `~/.config/tmux/tmux.conf` already exists and you want a lighter-touch one-time migration to the repo symlink, do it manually:
+
+```bash
+mkdir -p ~/.config/tmux
+mv ~/.config/tmux/tmux.conf ~/.config/tmux/tmux.conf.backup.$(date +%Y%m%d%H%M%S)
+ln -s ~/code/playground/dev-set-up/tmux/tmux.conf ~/.config/tmux/tmux.conf
+```
 
 ## Git identity split
 
