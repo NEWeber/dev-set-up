@@ -18,6 +18,37 @@ log() {
   printf '[setup] %s\n' "$1"
 }
 
+check_dependencies() {
+  local required_deps=(git)
+  local recommended_deps=(nvim tmux starship)
+  local missing_required=()
+  local missing_recommended=()
+  local dep
+
+  for dep in "${required_deps[@]}"; do
+    if ! command -v "${dep}" >/dev/null 2>&1; then
+      missing_required+=("${dep}")
+    fi
+  done
+
+  for dep in "${recommended_deps[@]}"; do
+    if ! command -v "${dep}" >/dev/null 2>&1; then
+      missing_recommended+=("${dep}")
+    fi
+  done
+
+  if [[ ${#missing_required[@]} -gt 0 ]]; then
+    log "Missing required dependencies: ${missing_required[*]}"
+    log "Install missing dependencies and rerun setup."
+    exit 1
+  fi
+
+  if [[ ${#missing_recommended[@]} -gt 0 ]]; then
+    log "Missing recommended dependencies: ${missing_recommended[*]}"
+    log "Configs will still be installed, but related tools may not run yet."
+  fi
+}
+
 prompt_email() {
   local env_var_name="$1"
   local config_path="$2"
@@ -195,6 +226,8 @@ link_path() {
   ln -s "${source_path}" "${destination_path}"
   log "Linked ${label} at ${destination_path}"
 }
+
+check_dependencies
 
 copy_if_needed "${REPO_ROOT}/git/.gitconfig" "${HOME}/.gitconfig" "main git config"
 WORK_EMAIL_VALUE="$(prompt_email "WORK_EMAIL" "${HOME}/.gitconfig-work" "Enter your work email for ~/.gitconfig-work: ")"

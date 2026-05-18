@@ -132,6 +132,20 @@ cd ~/code/playground
 git clone https://github.com/NEWeber/dev-set-up.git
 ```
 
+Dependencies are installed manually (the script checks but does not auto-install):
+
+```bash
+# macOS (Homebrew)
+brew install git neovim tmux starship ripgrep
+
+# Ubuntu/Debian
+sudo apt update
+sudo apt install -y git neovim tmux starship ripgrep
+
+# Fedora
+sudo dnf install -y git neovim tmux starship ripgrep
+```
+
 Run:
 
 ```bash
