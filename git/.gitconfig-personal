@@ -1,0 +1,9 @@
+[user]
+	email = __PERSONAL_EMAIL__
+	name = Nicholas Weber
+[url "git@personal:"]
+  insteadOf = git@github.com:
+  insteadOf = https://github.com/
+# Uncomment after nvim is set up
+#[core]
+#	editor = nvim
