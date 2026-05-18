@@ -77,6 +77,13 @@ This repo tracks tmux config in `tmux/tmux.conf`.
 
 - `~/.config/tmux/tmux.conf` -> `~/code/playground/dev-set-up/tmux/tmux.conf`
 
+`setup.sh` also copies (no symlink) the startup launcher files:
+
+- `~/code/tmux-startup.sh` (portable launcher)
+- `~/code/tmux-startup.config.sh` (your editable local startup layout)
+
+The startup config is copied from `tmux/tmux-startup.config.example.sh` if missing.
+
 Tmux dependencies:
 
 - `tmux`
@@ -94,6 +101,14 @@ After launching tmux, install plugins with:
 ```text
 prefix + I
 ```
+
+Run your startup session with:
+
+```bash
+bash ~/code/tmux-startup.sh
+```
+
+Edit `~/code/tmux-startup.config.sh` to set your project paths, notes files, and window layout.
 
 ## Bootstrap
 
@@ -129,6 +144,7 @@ The script is idempotent and includes safety checks:
 - Prompts for work and personal emails when generating git configs.
 - Symlinks Neovim config to `~/.config/nvim`.
 - Symlinks tmux config to `~/.config/tmux/tmux.conf`.
+- Copies tmux startup launcher/config into `~/code` (no symlinks).
 
 To overwrite existing dotfiles with repo templates:
 

@@ -204,6 +204,10 @@ install_templated_gitconfig "${REPO_ROOT}/git/.gitconfig-personal" "${HOME}/.git
 copy_if_needed "${REPO_ROOT}/bash/.bashrc" "${HOME}/.bashrc" "bash config"
 link_path "${REPO_ROOT}/nvim" "${HOME}/.config/nvim" "nvim config"
 link_path "${REPO_ROOT}/tmux/tmux.conf" "${HOME}/.config/tmux/tmux.conf" "tmux config"
+mkdir -p "${HOME}/code"
+copy_if_needed "${REPO_ROOT}/tmux/tmux-startup.sh" "${HOME}/code/tmux-startup.sh" "tmux startup script"
+chmod +x "${HOME}/code/tmux-startup.sh"
+copy_if_needed "${REPO_ROOT}/tmux/tmux-startup.config.example.sh" "${HOME}/code/tmux-startup.config.sh" "tmux startup config"
 
 install_extensions "${REPO_ROOT}/vscode/vscode-extensions.txt"
 
