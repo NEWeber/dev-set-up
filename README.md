@@ -1,3 +1,57 @@
+## SSH setup
+
+Set up your personal SSH key before using `git@personal:` remotes:
+
+```bash
+ssh-keygen -t ed25519 -C "you@personal.com" -f ~/.ssh/id_ed25519_github_personal
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519_github_personal
+pbcopy < ~/.ssh/id_ed25519_github_personal.pub
+```
+
+Add the copied key to GitHub under SSH keys, then verify direct host access:
+
+```bash
+ssh -T git@github.com
+```
+
+Set up a work key too (service-agnostic placeholder):
+
+```bash
+ssh-keygen -t ed25519 -C "you@company.com" -f ~/.ssh/id_ed25519_work
+ssh-add ~/.ssh/id_ed25519_work
+pbcopy < ~/.ssh/id_ed25519_work.pub
+```
+
+Add that key to your work git provider (GitLab/GitHub Enterprise/other), then verify against your work host:
+
+```bash
+ssh -T git@<your-work-git-host>
+```
+
+Required `~/.ssh/config` aliases:
+
+```sshconfig
+Host personal
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519_github_personal
+  IdentitiesOnly yes
+
+Host work
+  HostName <your-work-git-host>
+  User git
+  IdentityFile ~/.ssh/id_ed25519_work
+  IdentitiesOnly yes
+```
+
+After adding aliases, verify alias-based access too:
+
+```bash
+ssh -T personal
+ssh -T work
+```
+
 ## Bootstrap
 
 First-time setup:
@@ -5,7 +59,7 @@ First-time setup:
 ```bash
 mkdir -p ~/code/playground
 cd ~/code/playground
-git clone git@personal:NEWeber/dev-set-up.git
+git clone https://github.com/NEWeber/dev-set-up.git
 ```
 
 Run:
@@ -13,6 +67,13 @@ Run:
 ```bash
 cd ~/code/playground/dev-set-up
 bash ./setup.sh
+```
+
+Optional: switch this repo's remote from HTTPS to alias-based SSH after setup:
+
+```bash
+git remote set-url origin git@personal:NEWeber/dev-set-up.git
+git remote -v
 ```
 
 The script is idempotent and includes safety checks:
@@ -33,7 +94,7 @@ bash ./setup.sh --force
 For non-interactive runs, pass emails via environment variables:
 
 ```bash
-WORK_EMAIL="you@company.com" PERSONAL_EMAIL="you@gmail.com" bash ./setup.sh
+WORK_EMAIL="you@company.com" PERSONAL_EMAIL="you@personal.com" bash ./setup.sh
 ```
 
 ## Git identity split
