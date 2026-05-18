@@ -52,6 +52,23 @@ ssh -T personal
 ssh -T work
 ```
 
+## Neovim setup
+
+This repo tracks Neovim config in `nvim/`.
+
+`setup.sh` symlinks:
+
+- `~/.config/nvim` -> `~/code/playground/dev-set-up/nvim`
+
+This keeps Neovim tinkering commit-friendly because edits under `~/.config/nvim` are edits in this repo.
+
+Neovim dependencies to install on your machine:
+
+- `nvim`
+- `git`
+- compiler toolchain for Treesitter parsers (for macOS, install Xcode Command Line Tools)
+- optional but useful: `ripgrep` (used by Telescope live grep)
+
 ## Bootstrap
 
 First-time setup:
@@ -84,6 +101,7 @@ The script is idempotent and includes safety checks:
 - Creates timestamped backups before overwrite when `--force` is used.
 - Installs VS Code extensions only when missing.
 - Prompts for work and personal emails when generating git configs.
+- Symlinks Neovim config to `~/.config/nvim`.
 
 To overwrite existing dotfiles with repo templates:
 
@@ -96,6 +114,15 @@ For non-interactive runs, pass emails via environment variables:
 ```bash
 WORK_EMAIL="you@company.com" PERSONAL_EMAIL="you@personal.com" bash ./setup.sh
 ```
+
+If `~/.config/nvim` already exists and you want a lighter-touch one-time migration to the repo symlink, do it manually:
+
+```bash
+mv ~/.config/nvim ~/.config/nvim.backup.$(date +%Y%m%d%H%M%S)
+ln -s ~/code/playground/dev-set-up/nvim ~/.config/nvim
+```
+
+This avoids using `--force` on a working setup.
 
 ## Git identity split
 
