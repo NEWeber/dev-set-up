@@ -1,3 +1,12 @@
+# Development Setup
+
+To set up your dev environment:
+- Generate SSH keys
+- Install dependencies
+- Clone this repo and run its script
+
+Details below
+
 ## SSH setup
 
 Set up your personal SSH key before using `git@personal:` remotes:
@@ -52,24 +61,49 @@ ssh -T personal
 ssh -T work
 ```
 
-## Neovim setup
+## Dependencies
 
-This repo tracks Neovim config in `nvim/`.
+Dependencies are installed manually (the script checks but does not auto-install):
 
-`setup.sh` symlinks:
+```bash
+# macOS (Homebrew)
+brew install git neovim tmux starship ripgrep
 
-- `~/.config/nvim` -> `~/code/playground/dev-set-up/nvim`
+# Ubuntu/Debian
+sudo apt update
+sudo apt install -y git neovim tmux starship ripgrep
 
-This keeps Neovim tinkering commit-friendly because edits under `~/.config/nvim` are edits in this repo.
+# Fedora
+sudo dnf install -y git neovim tmux starship ripgrep
+```
 
-Neovim dependencies to install on your machine:
+## Clone and Setup 
 
-- `nvim`
-- `git`
-- compiler toolchain for Treesitter parsers (for macOS, install Xcode Command Line Tools)
-- optional but useful: `ripgrep` (used by Telescope live grep)
+First-time setup:
 
-## Tmux setup
+```bash
+mkdir -p ~/code/playground
+cd ~/code/playground
+git clone https://github.com/NEWeber/dev-set-up.git
+```
+
+Run:
+
+```bash
+cd ~/code/playground/dev-set-up
+bash ./setup.sh
+```
+
+Optional: switch this repo's remote from HTTPS to alias-based SSH after setup:
+
+```bash
+git remote set-url origin git@personal:NEWeber/dev-set-up.git
+git remote -v
+```
+
+## Notes
+
+### Tmux setup
 
 This repo tracks tmux config in `tmux/tmux.conf`.
 
@@ -110,7 +144,24 @@ bash ~/code/tmux-startup.sh
 
 Edit `~/code/tmux-startup.config.sh` to set your project paths, notes files, and window layout.
 
-## Starship setup
+### Neovim setup
+
+This repo tracks Neovim config in `nvim/`.
+
+`setup.sh` symlinks:
+
+- `~/.config/nvim` -> `~/code/playground/dev-set-up/nvim`
+
+This keeps Neovim tinkering commit-friendly because edits under `~/.config/nvim` are edits in this repo.
+
+Neovim dependencies to install on your machine:
+
+- `nvim`
+- `git`
+- compiler toolchain for Treesitter parsers (for macOS, install Xcode Command Line Tools)
+- optional but useful: `ripgrep` (used by Telescope live grep)
+
+### Starship setup
 
 This repo tracks Starship config in `starship/starship.toml`.
 
@@ -122,44 +173,7 @@ Dependency:
 
 - `starship` (and shell initialization in your shell config)
 
-## Bootstrap
-
-First-time setup:
-
-```bash
-mkdir -p ~/code/playground
-cd ~/code/playground
-git clone https://github.com/NEWeber/dev-set-up.git
-```
-
-Dependencies are installed manually (the script checks but does not auto-install):
-
-```bash
-# macOS (Homebrew)
-brew install git neovim tmux starship ripgrep
-
-# Ubuntu/Debian
-sudo apt update
-sudo apt install -y git neovim tmux starship ripgrep
-
-# Fedora
-sudo dnf install -y git neovim tmux starship ripgrep
-```
-
-Run:
-
-```bash
-cd ~/code/playground/dev-set-up
-bash ./setup.sh
-```
-
-Optional: switch this repo's remote from HTTPS to alias-based SSH after setup:
-
-```bash
-git remote set-url origin git@personal:NEWeber/dev-set-up.git
-git remote -v
-```
-
+### Setup Script
 The script is idempotent and includes safety checks:
 
 - Copies git/bash config files into your home directory.
